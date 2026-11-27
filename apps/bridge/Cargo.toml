@@ -1,0 +1,21 @@
+[package]
+name = "vortex-bridge"
+description = "Lightweight Native Messaging host (< 1 MB) bridging browser extensions to Vortex Core over Named Pipes"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability = { workspace = true, default-features = false }
+vortex-ipc = { workspace = true, features = ["client"] }
+mimalloc.workspace = true
+serde_json.workspace = true
+windows-sys.workspace = true

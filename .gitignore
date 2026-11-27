@@ -1,0 +1,48 @@
+# Rust / Cargo
+/target/
+**/*.rs.bk
+*.pdb
+
+# Node / pnpm / Frontend / Extension
+node_modules/
+.pnpm-store/
+dist/
+build/
+.output/
+.wxt/
+storybook-static/
+*.tsbuildinfo
+
+# Coverage & Benchmarks
+coverage/
+lcov.info
+*.profraw
+*.profdata
+/target/criterion/
+
+# Logs, Runtime Data & Crash Dumps
+*.log
+*.jsonl
+*.jsonl.gz
+*.dmp
+*.vortex
+*.vortex.meta
+*.db
+*.db-wal
+*.db-shm
+*.db.corrupt.*
+toolchains/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

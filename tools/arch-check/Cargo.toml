@@ -1,0 +1,13 @@
+[package]
+name = "vortex-arch-check"
+description = "Automated Architecture Fitness Function enforcing Vortex 5-level crate DAG, unsafe justification, and release panic=unwind"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+toml.workspace = true

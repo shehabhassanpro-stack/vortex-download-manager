@@ -1,0 +1,7 @@
+{
+  "name": "com.vortex.bridge",
+  "description": "Vortex Download Manager Native Messaging Bridge",
+  "path": "vortex-bridge.exe",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://mpmpknhplomcjbdkbaopakoihjmhpbop/"]
+}

@@ -1,0 +1,170 @@
+syntax = "proto3";
+package vortex.ipc.v1;
+
+// Unified IPC Envelope over Named Pipe / UDS (Protocol-Spec.md §2.2, ADR-010).
+// Binary framing: 4-byte Little-Endian uint32 length prefix + serialized Envelope (max 4 MiB).
+message Envelope {
+  uint32 protocol_version = 1;       // Current: 1
+  string message_id       = 2;       // UUIDv7 unique per message (request/reply correlation)
+  string reply_to         = 3;       // Empty for requests; holds request message_id for replies
+  string trace_id         = 4;       // UUIDv7 for end-to-end tracing across all 4 processes
+  int64  timestamp_ms     = 5;       // Unix epoch milliseconds
+
+  oneof body {
+    HelloRequest          hello                = 10;
+    HelloAck              hello_ack            = 11;
+    Ping                  ping                 = 12;
+    Pong                  pong                 = 13;
+    DownloadHandoff       download_handoff     = 14;
+    DownloadHandoffAck    download_handoff_ack = 15;
+    DownloadBatch         download_batch       = 16;
+    MediaDetected         media_detected       = 17;
+    MediaDownloadRequest  media_download       = 18;
+    LinkRefreshBegin      link_refresh_begin   = 19;
+    LinkRefreshCandidate  link_refresh_cand    = 20;
+    SettingsChanged       settings_changed     = 21;
+    DiagnosticsDumpReq    diagnostics_req      = 22;
+    DiagnosticsDumpResp   diagnostics_resp     = 23;
+    HealthCheckReq        health_req           = 24;
+    HealthCheckResp       health_resp          = 25;
+    BringToFront          bring_to_front       = 26;
+    ApiError              error                = 99;
+  }
+}
+
+message HelloRequest {
+  string client_kind     = 1;        // "extension-brave" | "extension-chrome" | "extension-firefox" | "cli"
+  string client_version  = 2;        // SemVer e.g. "0.1.0"
+  uint32 min_supported_v = 3;        // Oldest protocol version supported by client
+  uint32 max_supported_v = 4;        // Newest protocol version supported by client
+  repeated string capabilities = 5;  // e.g. ["handoff", "media", "link-refresh", "diag-dump"]
+}
+
+message HelloAck {
+  uint32 negotiated_version = 1;
+  string core_version       = 2;
+  repeated string capabilities = 3;
+  CaptureRules capture_rules = 4;    // Latest capture rules pushed to extension
+}
+
+message CaptureRules {
+  bool enabled                    = 1;
+  uint64 min_file_size_bytes      = 2; // Default: 1_048_576 (1 MiB)
+  repeated string extensions      = 3;
+  repeated string mime_types      = 4;
+  repeated string excluded_hosts  = 5;
+  bool capture_in_incognito       = 6; // Default: false
+}
+
+message DownloadHandoff {
+  string url            = 1;         // <= 8192 bytes, http/https only
+  string final_url      = 2;
+  string referrer       = 3;
+  string suggested_name = 4;         // <= 512 bytes, no NUL
+  string mime_type      = 5;
+  optional uint64 size_bytes = 6;
+  string user_agent     = 7;
+  string cookies        = 8;         // Sensitive (regular + CHIPS) — wrap in SecretString immediately
+  map<string, string> headers = 9;   // <= 64 headers, each value <= 8 KiB
+  bool incognito        = 10;
+  string source         = 11;        // "determining-filename" | "context-menu" | "video-button" | "cli"
+  bool auto_start       = 12;
+  string top_level_site = 13;        // e.g. "https://example.com" (CHIPS partitionKey context)
+}
+
+message DownloadHandoffAck {
+  string download_id         = 1;    // UUIDv7 of accepted download
+  bool accepted              = 2;    // true ONLY after first Probe succeeds
+  bool duplicate_found       = 3;
+  bool fallback_to_browser   = 4;    // true on 403/410 (Cloudflare JA4 or single-use token)
+  string fallback_reason     = 5;    // e.g. "waf_tls_bound" | "single_use_token"
+}
+
+message Ping {
+  int64 sent_at_ms = 1;
+}
+
+message Pong {
+  int64 echo_sent_at_ms = 1;
+}
+
+message DownloadBatch {
+  repeated DownloadHandoff items = 1;
+}
+
+message MediaStreamOption {
+  string format_id     = 1;          // e.g. "2160p60-av1", "1080p60-vp9", "mp3-320"
+  string label         = 2;
+  string container     = 3;          // "mp4" | "mkv" | "mp3" | "m4a"
+  optional uint64 approx_size_bytes = 4;
+  bool audio_only      = 5;
+}
+
+message MediaDetected {
+  string page_url      = 1;
+  string media_url     = 2;
+  string title         = 3;
+  string mime_type     = 4;
+  repeated MediaStreamOption options = 5;
+}
+
+message MediaDownloadRequest {
+  string page_url      = 1;
+  string media_url     = 2;
+  string format_id     = 3;
+  repeated string subtitle_langs = 4; // e.g. ["ar", "en"]
+  string user_agent    = 5;
+  string cookies       = 6;          // Sensitive — wrap in SecretString immediately
+  string top_level_site = 7;
+  bool is_playlist     = 8;
+}
+
+message LinkRefreshBegin {
+  string download_id   = 1;
+  string referrer_url  = 2;
+  string expected_name = 3;
+  string expected_mime = 4;
+  optional uint64 expected_size_bytes = 5;
+}
+
+message LinkRefreshCandidate {
+  string download_id   = 1;
+  DownloadHandoff candidate = 2;
+}
+
+message SettingsChanged {
+  CaptureRules capture_rules = 1;
+}
+
+message DiagnosticsDumpReq {
+  uint32 max_entries   = 1;          // Default: 500
+}
+
+message DiagnosticsDumpResp {
+  string extension_logs_jsonl = 1;   // Scrubbed of all secrets
+}
+
+message HealthCheckReq {}
+
+message HealthCheckResp {
+  bool core_ok         = 1;
+  bool db_ok           = 2;
+  bool pipe_ok         = 3;
+  uint64 free_disk_bytes = 4;
+}
+
+message BringToFront {
+  optional string open_url = 1;      // Optional URL forwarded from second instance
+}
+
+message ApiError {
+  string code              = 1;      // Stable: e.g. "VTX-IPC-001"
+  string category          = 2;      // "Network" | "Resource" | "Auth" | "Disk" | "Integrity" | "Database" | "Ipc" | "Security" | "Internal"
+  string recoverability    = 3;      // "Transient" | "UserActionRequired" | "Permanent" | "SelfHealed" | "IsolatedBug"
+  optional uint64 retry_after_ms = 4; // Populated for Transient when available
+  string user_message_key  = 5;      // i18n key
+  map<string, string> message_params = 6;
+  repeated string suggested_actions  = 7;
+  string technical_detail  = 8;      // 100% sanitized of secrets
+  string trace_id          = 9;
+}

@@ -1,0 +1,87 @@
+name: Bug Report
+description: Report a defect, crash, speed regression, or host compatibility issue in Vortex.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue. Please search existing issues first and **never paste raw cookies, signed URLs, or personal tokens** here.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of Vortex is affected?
+      options:
+        - Core Download Engine (vortex-engine / vortex-domain)
+        - Networking / HTTP/2 / TLS / Host Compatibility (vortex-net)
+        - Disk I/O / Sparse Files / Storage (vortex-io / vortex-storage)
+        - Desktop UI / Tauri Shell (apps/desktop)
+        - Browser Extension / Native Bridge (extension / vortex-bridge)
+        - Windows Installer (NSIS / MSI)
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Vortex Version
+      description: Version shown in Settings or the installer filename.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: OS & Browser Environment
+      description: Windows version, architecture, and browser (if capture-related).
+      placeholder: "Windows 11 24H2 x64, Brave 1.78"
+    validations:
+      required: true
+
+  - type: input
+    id: error_code
+    attributes:
+      label: Error Code / Trace ID (Optional)
+      description: Any VTX-* error code and Trace ID copied from the error card.
+      placeholder: "VTX-RES-005 / 0192f3a4-..."
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps needed to reproduce the issue.
+      placeholder: |
+        1. Open...
+        2. Start download from...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_vs_actual
+    attributes:
+      label: Expected vs. Actual Behavior
+      description: What did you expect to happen, and what happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized Diagnostic Info (Optional)
+      description: Paste relevant scrubbed log snippets or attach the sanitized diagnostic bundle exported from Vortex Diagnostics.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-Submission Checklist
+      options:
+        - label: I confirmed this report does not contain private cookies, auth tokens, or personal credentials.
+          required: true
+        - label: I confirmed this is not a security vulnerability (security issues belong in Private Vulnerability Reporting).
+          required: true

@@ -1,0 +1,28 @@
+[package]
+name = "vortex-application"
+description = "Application ports (traits), CQRS-lite use cases, and event contracts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+specta = ["dep:specta", "vortex-error/specta", "vortex-domain/specta"]
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability.workspace = true
+vortex-domain.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+bytes.workspace = true
+async-trait.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+ahash.workspace = true
+nucleo-matcher.workspace = true
+specta = { workspace = true, optional = true }

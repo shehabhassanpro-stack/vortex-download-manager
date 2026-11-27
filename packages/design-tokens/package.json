@@ -1,0 +1,16 @@
+{
+  "name": "@vortex/design-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OKLCH Calm Anti-Halation Design Tokens, Typography, Spacing, Motion, and WCAG 2.2 AA contrast verification",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./tokens.css"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  }
+}

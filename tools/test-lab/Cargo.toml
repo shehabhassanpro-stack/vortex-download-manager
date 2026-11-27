@@ -1,0 +1,27 @@
+[package]
+name = "vortex-test-lab"
+description = "Programmable hostile HTTP test server simulating broken CDNs, Weak ETags, Cloudflare JA4, single-use tokens, and SSRF"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+axum.workspace = true
+bytes.workspace = true
+flate2.workspace = true
+futures-core.workspace = true
+hex.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+http-body-util.workspace = true
+proptest.workspace = true

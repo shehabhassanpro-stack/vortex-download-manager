@@ -1,0 +1,25 @@
+{
+  "v": 1,
+  "id": "0192f3a4-0000-7000-8000-000000000010",
+  "replyTo": "",
+  "traceId": "0192f3a4-0000-7000-8000-000000000001",
+  "timestampMs": 1764094000000,
+  "type": "download.handoff",
+  "payload": {
+    "url": "https://example.com/download?id=42",
+    "finalUrl": "https://cdn.example.com/release.iso",
+    "referrer": "https://example.com/downloads",
+    "topLevelSite": "https://example.com",
+    "suggestedName": "release.iso",
+    "mimeType": "application/octet-stream",
+    "sizeBytes": 1073741824,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Brave/1.0",
+    "cookies": "",
+    "headers": {
+      "Accept-Language": "ar,en;q=0.9"
+    },
+    "incognito": false,
+    "source": "determining-filename",
+    "autoStart": false
+  }
+}

@@ -1,0 +1,31 @@
+[package]
+name = "vortex-engine"
+description = "Actor-based download engine, adaptive segmentation, BBR/Gradient2, and rate limiting"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability.workspace = true
+vortex-domain.workspace = true
+vortex-application.workspace = true
+async-trait.workspace = true
+bytes.workspace = true
+rustc-hash.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+hex.workspace = true
+sha2.workspace = true
+tempfile.workspace = true
+vortex-io.workspace = true
+vortex-net.workspace = true
+vortex-storage.workspace = true
+vortex-test-lab = { path = "../../tools/test-lab" }

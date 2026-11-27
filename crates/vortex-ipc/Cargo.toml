@@ -1,0 +1,47 @@
+[package]
+name = "vortex-ipc"
+description = "Contract-first Protobuf v3 IPC schema, Named Pipe client/server, Channel A JSON bridge, capability negotiation, and anti-DoS validation"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = ["client"]
+# Lightweight synchronous client + Channel A JSON codec used by thin binaries (vortex-bridge < 1MB, vortex-cli)
+client = []
+# Async Named Pipe server used by Vortex Core (vortex.exe)
+server = [
+    "vortex-observability/full",
+    "dep:vortex-application",
+    "dep:tokio",
+    "dep:tokio-util",
+    "dep:async-trait",
+    "dep:tracing",
+    "dep:uuid",
+]
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability = { workspace = true, default-features = false }
+prost.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+# Optional server-only dependencies (never linked into vortex-bridge.exe!)
+vortex-application = { workspace = true, optional = true }
+tokio = { workspace = true, optional = true }
+tokio-util = { workspace = true, optional = true }
+async-trait = { workspace = true, optional = true }
+tracing = { workspace = true, optional = true }
+uuid = { workspace = true, optional = true }
+
+[build-dependencies]
+prost-build.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+tempfile.workspace = true

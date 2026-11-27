@@ -1,0 +1,14 @@
+# Default code ownership for Vortex Download Manager.
+# Reviewers are automatically requested when pull requests touch matched paths.
+
+* @shehabhassanpro-stack
+
+# Security-critical surfaces
+/SECURITY.md @shehabhassanpro-stack
+/deny.toml @shehabhassanpro-stack
+/.github/workflows/ @shehabhassanpro-stack
+/crates/vortex-net/ @shehabhassanpro-stack
+/crates/vortex-io/ @shehabhassanpro-stack
+/crates/vortex-ipc/ @shehabhassanpro-stack
+/crates/vortex-platform/ @shehabhassanpro-stack
+/extension/ @shehabhassanpro-stack

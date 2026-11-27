@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <!-- Per-user installation default without Admin UAC -->
+    <Property Id="MSIINSTALLPERUSER" Value="1" />
+    <SetProperty Id="ALLUSERS" Value="2" Before="FindRelatedProducts" Sequence="both" />
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="VortexNativeMessagingHosts" Guid="8f4a2e61-5d19-4c8b-9a77-3e210b8d94c2" Win64="yes">
+        <RegistryKey Root="HKCU" Key="Software\BraveSoftware\Brave-Browser\NativeMessagingHosts\com.vortex.bridge">
+          <RegistryValue Type="string" Value="[INSTALLDIR]com.vortex.bridge.json" KeyPath="yes" />
+        </RegistryKey>
+        <RegistryKey Root="HKCU" Key="Software\Google\Chrome\NativeMessagingHosts\com.vortex.bridge">
+          <RegistryValue Type="string" Value="[INSTALLDIR]com.vortex.bridge.json" />
+        </RegistryKey>
+        <RegistryKey Root="HKCU" Key="Software\Microsoft\Edge\NativeMessagingHosts\com.vortex.bridge">
+          <RegistryValue Type="string" Value="[INSTALLDIR]com.vortex.bridge.json" />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

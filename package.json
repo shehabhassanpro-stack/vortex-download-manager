@@ -1,0 +1,40 @@
+{
+  "name": "vortex-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "High-velocity, open-source Windows download manager built with Rust, Tauri 2 & React.",
+  "author": "Shehab Hassan <shehab.hassan.pro@gmail.com>",
+  "homepage": "https://github.com/shehabhassanpro-stack/vortex-download-manager#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shehabhassanpro-stack/vortex-download-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shehabhassanpro-stack/vortex-download-manager/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "packageManager": "pnpm@12.23.0",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r --if-present typecheck && tsc -p tsconfig.e2e.json --noEmit",
+    "test": "pnpm -r --if-present test",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "preview:ui": "pnpm --filter @vortex/desktop-ui dev",
+    "build:ui": "pnpm --filter @vortex/desktop-ui build",
+    "build:ext": "pnpm --filter @vortex/extension build",
+    "dev:ext:brave": "pnpm --filter @vortex/extension dev:brave"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@tauri-apps/cli": "^2.12.6",
+    "@types/node": "^22.20.5",
+    "eslint": "^9.25.0",
+    "playwright-core": "^1.65.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0",
+    "vitest": "^3.1.2"
+  }
+}

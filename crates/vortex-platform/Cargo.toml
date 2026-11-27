@@ -1,0 +1,32 @@
+[package]
+name = "vortex-platform"
+description = "OS integration behind traits: Single-Instance, Graceful Shutdown, Sleep, Named Pipe ACL, Native Host Registry, Self-Healing, and Diagnostics"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability.workspace = true
+vortex-domain.workspace = true
+vortex-application.workspace = true
+async-trait.workspace = true
+flate2.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+time.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+tracing.workspace = true
+windows-sys.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+bytes.workspace = true
+vortex-storage.workspace = true
+vortex-io.workspace = true
+vortex-engine.workspace = true

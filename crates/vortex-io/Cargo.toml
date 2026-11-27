@@ -1,0 +1,36 @@
+[package]
+name = "vortex-io"
+description = "Sparse positional FileSink, VolumeSpaceManager, durable checkpoints, and Windows MotW/AV"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+failpoints = []
+
+[dependencies]
+vortex-error.workspace = true
+vortex-observability.workspace = true
+vortex-domain.workspace = true
+vortex-application.workspace = true
+async-trait.workspace = true
+bytes.workspace = true
+rustc-hash.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+blake3.workspace = true
+sha2.workspace = true
+sha1.workspace = true
+md-5.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-sys.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

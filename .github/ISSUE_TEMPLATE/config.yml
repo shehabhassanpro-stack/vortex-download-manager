@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a Security Vulnerability (Private)
+    url: https://github.com/shehabhassanpro-stack/vortex-download-manager/security/advisories/new
+    about: Please report security vulnerabilities privately rather than opening a public issue.
+  - name: Architecture & Engineering Docs
+    url: https://github.com/shehabhassanpro-stack/vortex-download-manager/tree/main/docs
+    about: Browse the architecture design document, ADRs, threat model, and roadmap.

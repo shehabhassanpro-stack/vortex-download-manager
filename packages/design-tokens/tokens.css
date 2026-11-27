@@ -1,0 +1,163 @@
+/* Vortex Download Manager — OKLCH Calm Design Tokens (P0-T17 & P1.5-T08)
+ * Anti-halation Light & Dark themes (no pure #000000 OLED backgrounds),
+ * layered glass & elevation depth, semantic file-type tints,
+ * 100% CSS Logical Properties (first-class Arabic RTL), tabular numerals, and reduced-motion support.
+ */
+
+:root,
+[data-theme="light"] {
+  --vtx-brand-primary: #4f46e5;
+  --vtx-brand-hover: #4338ca;
+  --vtx-brand-cyan: #0891b2;
+  --vtx-brand-subtle: rgba(79, 70, 229, 0.1);
+  --vtx-brand-on-primary: #ffffff;
+  --vtx-brand-gradient: linear-gradient(135deg, #4f46e5 0%, #0891b2 100%);
+  --vtx-glow-brand: 0 4px 18px rgba(79, 70, 229, 0.24);
+
+  --vtx-bg-canvas: #f5f6f8;
+  --vtx-bg-rail: #eef1f6;
+  --vtx-bg-surface: #ffffff;
+  --vtx-bg-elevated: #f9fafb;
+  --vtx-surface-glass: rgba(255, 255, 255, 0.84);
+  --vtx-surface-modal: rgba(255, 255, 255, 0.96);
+  --vtx-scrim: rgba(15, 23, 42, 0.42);
+
+  --vtx-border-subtle: rgba(15, 23, 42, 0.08);
+  --vtx-border-strong: rgba(15, 23, 42, 0.16);
+  --vtx-border-glass: rgba(15, 23, 42, 0.12);
+
+  --vtx-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.04);
+  --vtx-shadow-modal: 0 24px 64px rgba(15, 23, 42, 0.22), 0 2px 10px rgba(15, 23, 42, 0.08);
+
+  --vtx-text-primary: #111827;
+  --vtx-text-secondary: #475569;
+  --vtx-text-muted: #5e6d82;
+
+  --vtx-status-active: #2563eb;
+  --vtx-status-success: #15803d;
+  --vtx-status-warning: #b45309;
+  --vtx-status-danger: #c81e1e;
+  --vtx-status-queued: #7c3aed;
+
+  /* Semantic soft tints for file badges and security shields */
+  --vtx-tint-video: rgba(139, 92, 246, 0.12);
+  --vtx-tint-audio: rgba(236, 72, 153, 0.12);
+  --vtx-tint-archive: rgba(245, 158, 11, 0.14);
+  --vtx-tint-program: rgba(14, 165, 233, 0.13);
+  --vtx-tint-document: rgba(16, 185, 129, 0.12);
+  --vtx-tint-image: rgba(99, 102, 241, 0.12);
+  --vtx-tint-success: rgba(21, 128, 61, 0.11);
+  --vtx-tint-warning: rgba(180, 83, 9, 0.12);
+  --vtx-tint-danger: rgba(200, 30, 30, 0.11);
+  --vtx-tint-active: rgba(37, 99, 235, 0.11);
+
+  /* Typography */
+  --vtx-font-latin: "Segoe UI Variable", "Inter", system-ui, -apple-system, sans-serif;
+  --vtx-font-arabic: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --vtx-font-mono: "Cascadia Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  /* 4px Spacing Grid */
+  --vtx-space-1: 4px;
+  --vtx-space-2: 8px;
+  --vtx-space-3: 12px;
+  --vtx-space-4: 16px;
+  --vtx-space-5: 20px;
+  --vtx-space-6: 24px;
+  --vtx-space-8: 32px;
+
+  /* Radius & Density */
+  --vtx-radius-control: 8px;
+  --vtx-radius-card: 10px;
+  --vtx-radius-modal: 14px;
+  --vtx-radius-pill: 9999px;
+  --vtx-row-height: 58px;
+
+  /* Motion Curves */
+  --vtx-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --vtx-duration-micro: 120ms;
+  --vtx-duration-ui: 180ms;
+  --vtx-duration-modal: 220ms;
+}
+
+@supports (color: oklch(0.5 0.1 277)) {
+  :root,
+  [data-theme="light"] {
+    --vtx-brand-primary: oklch(0.51 0.23 277);
+    --vtx-brand-hover: oklch(0.46 0.22 277);
+  }
+}
+
+[data-theme="dark"] {
+  --vtx-brand-primary: #7c7bff;
+  --vtx-brand-hover: #9190ff;
+  --vtx-brand-cyan: #22d3ee;
+  --vtx-brand-subtle: rgba(124, 123, 255, 0.15);
+  --vtx-brand-on-primary: #0f1117;
+  --vtx-brand-gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+  --vtx-glow-brand: 0 4px 22px rgba(99, 102, 241, 0.34);
+
+  --vtx-bg-canvas: #13151a;
+  --vtx-bg-rail: #161922;
+  --vtx-bg-surface: #1b1e26;
+  --vtx-bg-elevated: #232732;
+  --vtx-surface-glass: rgba(27, 30, 38, 0.82);
+  --vtx-surface-modal: rgba(24, 27, 36, 0.96);
+  --vtx-scrim: rgba(7, 9, 14, 0.68);
+
+  --vtx-border-subtle: rgba(255, 255, 255, 0.08);
+  --vtx-border-strong: rgba(255, 255, 255, 0.16);
+  --vtx-border-glass: rgba(255, 255, 255, 0.11);
+
+  --vtx-shadow-card: 0 2px 6px rgba(0, 0, 0, 0.22), 0 12px 30px rgba(0, 0, 0, 0.18);
+  --vtx-shadow-modal: 0 28px 72px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(255, 255, 255, 0.07);
+
+  --vtx-text-primary: #eceff4;
+  --vtx-text-secondary: #a3acb9;
+  --vtx-text-muted: #8b95a5;
+
+  --vtx-status-active: #60a5fa;
+  --vtx-status-success: #4ade80;
+  --vtx-status-warning: #fbbf24;
+  --vtx-status-danger: #f87171;
+  --vtx-status-queued: #c084fc;
+
+  --vtx-tint-video: rgba(167, 139, 250, 0.16);
+  --vtx-tint-audio: rgba(244, 114, 182, 0.16);
+  --vtx-tint-archive: rgba(251, 191, 36, 0.16);
+  --vtx-tint-program: rgba(56, 189, 248, 0.16);
+  --vtx-tint-document: rgba(52, 211, 153, 0.16);
+  --vtx-tint-image: rgba(129, 140, 248, 0.16);
+  --vtx-tint-success: rgba(74, 222, 128, 0.13);
+  --vtx-tint-warning: rgba(251, 191, 36, 0.14);
+  --vtx-tint-danger: rgba(248, 113, 113, 0.15);
+  --vtx-tint-active: rgba(96, 165, 250, 0.15);
+}
+
+@supports (color: oklch(0.66 0.19 277)) {
+  [data-theme="dark"] {
+    --vtx-brand-primary: oklch(0.66 0.19 277);
+    --vtx-brand-hover: oklch(0.71 0.17 277);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  [data-theme="light"],
+  [data-theme="dark"] {
+    --vtx-duration-micro: 0ms;
+    --vtx-duration-ui: 0ms;
+    --vtx-duration-modal: 0ms;
+  }
+}
+
+/* Mandatory tabular numerals for live speed, progress %, ETA, and sizes */
+.vtx-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mandatory LTR isolation for URLs, file paths, VTX-* codes, hashes, and trace_id in RTL views */
+.vtx-ltr-isolate {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--vtx-font-mono);
+}

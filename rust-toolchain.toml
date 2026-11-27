@@ -1,0 +1,4 @@
+[toolchain]
+# Uses the installed stable Rust toolchain (MSRV 1.100.0, Edition 2024).
+channel = "stable"
+components = ["rustfmt", "clippy"]

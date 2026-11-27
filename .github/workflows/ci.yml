@@ -1,0 +1,180 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTC_WRAPPER: sccache
+  SCCACHE_GHA_ENABLED: "true"
+
+jobs:
+  rust-windows:
+    name: Rust Full Workspace & Coverage (Windows x64)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy, llvm-tools-preview
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
+
+      - name: Install Protobuf compiler (protoc)
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install cargo-nextest & cargo-llvm-cov
+        uses: taiki-e/install-action@v2
+        with:
+          tool: nextest,cargo-llvm-cov
+
+      - name: Check formatting (cargo fmt)
+        run: cargo fmt --all -- --check
+
+      - name: Run strict Clippy (-D warnings, all features)
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+      - name: Run Architecture Fitness Function (tools/arch-check)
+        run: cargo run -p vortex-arch-check --locked
+
+      - name: Run full workspace test suite
+        run: cargo nextest run --workspace --all-features --exclude vortex-bench --locked
+
+      - name: Verify tauri-specta TypeScript bindings have zero contract drift
+        shell: pwsh
+        run: |
+          cargo test -p vortex-desktop export_specta_typescript_bindings_to_ui --locked
+          git diff --exit-code apps/desktop/ui/src/bindings/generated.ts
+
+      - name: Enforce >= 90% coverage on error/domain/engine & >= 75% across core crates
+        shell: pwsh
+        run: |
+          cargo llvm-cov clean --workspace
+          cargo llvm-cov nextest -p vortex-error --locked --fail-under-lines 90
+          cargo llvm-cov nextest -p vortex-domain --locked --fail-under-lines 90
+          cargo llvm-cov nextest -p vortex-engine --locked --fail-under-lines 90
+          cargo llvm-cov nextest -p vortex-error -p vortex-observability -p vortex-domain -p vortex-application -p vortex-engine -p vortex-ipc --locked --fail-under-lines 75 --lcov --output-path lcov.info
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-coverage
+          path: lcov.info
+
+      - name: Show sccache statistics
+        run: sccache --show-stats
+
+  rust-portable-core:
+    name: Portable Core Crates (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+
+      - name: Clippy on platform-independent core crates
+        run: cargo clippy -p vortex-error -p vortex-observability -p vortex-domain -p vortex-application -p vortex-net -p vortex-io -p vortex-storage -p vortex-engine -p vortex-test-lab -p vortex-arch-check --all-targets -- -D warnings
+
+      - name: Test platform-independent core crates
+        run: cargo nextest run -p vortex-error -p vortex-observability -p vortex-domain -p vortex-application -p vortex-net -p vortex-io -p vortex-storage -p vortex-engine -p vortex-arch-check --locked
+
+  typescript:
+    name: TypeScript & Design System (Lint / Typecheck / Test + axe-core / Build)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check Prettier formatting
+        run: pnpm format:check
+
+      - name: Run ESLint (strict TS + RTL Logical Properties + FSD boundaries)
+        run: pnpm lint
+
+      - name: Run TypeScript strict typecheck
+        run: pnpm typecheck
+
+      - name: Run Vitest suite (Protocol, WCAG AA Contrast & axe-core A11y)
+        run: pnpm test
+
+      - name: Build Desktop UI bundle & MV3 Extension
+        run: |
+          pnpm build:ui
+          pnpm build:ext
+
+  windows-installer-gate:
+    name: Windows Per-User NSIS & MSI Installer (< 15 MB Gate)
+    runs-on: windows-latest
+    needs: [rust-windows, typescript]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
+
+      - name: Install Protobuf compiler (protoc)
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install JS dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build & verify per-user NSIS + MSI installers (< 15 MB) & vortex-bridge (< 1 MB)
+        shell: pwsh
+        run: ./scripts/verify-installers.ps1

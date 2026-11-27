@@ -1,0 +1,40 @@
+[package]
+name = "vortex-bench"
+description = "Criterion micro-benchmark harness & Phase 1 MVP performance/memory budget verification suite"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+bench = false
+
+[dev-dependencies]
+async-trait.workspace = true
+bytes.workspace = true
+criterion.workspace = true
+sha2.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+vortex-application.workspace = true
+vortex-domain.workspace = true
+vortex-engine.workspace = true
+vortex-error.workspace = true
+vortex-io.workspace = true
+vortex-ipc = { workspace = true, features = ["client", "server"] }
+vortex-net.workspace = true
+vortex-observability.workspace = true
+vortex-platform.workspace = true
+vortex-storage.workspace = true
+vortex-test-lab.workspace = true
+
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys.workspace = true
+
+[[bench]]
+name = "observability_redaction"
+harness = false

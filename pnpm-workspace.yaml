@@ -1,0 +1,15 @@
+packages:
+  - "packages/*"
+  - "apps/desktop/ui"
+  - "extension"
+
+# Supply-chain guard (pnpm 12): allow native postinstall build scripts ONLY for esbuild (Vite/Vitest)
+allowBuilds:
+  esbuild: true
+  spawn-sync: false
+
+overrides:
+  tinypool: ">=2.1.2"
+  shell-quote: ">=1.9.0"
+  tmp: ">=0.2.6"
+  adm-zip: ">=0.6.1"

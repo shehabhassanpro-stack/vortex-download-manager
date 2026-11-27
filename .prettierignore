@@ -1,0 +1,17 @@
+target/
+node_modules/
+dist/
+build/
+.output/
+.wxt/
+storybook-static/
+coverage/
+pnpm-lock.yaml
+*.bin
+*.md
+*.wxs
+*.nsh
+apps/desktop/src-tauri/gen/
+apps/desktop/ui/src/bindings/generated.ts
+LICENSE
+extension/LICENSE

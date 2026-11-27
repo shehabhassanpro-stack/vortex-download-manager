@@ -1,0 +1,44 @@
+[package]
+name = "vortex-desktop"
+description = "Vortex Desktop Composition Root & Tauri 2 host (vortex.exe)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build.workspace = true
+
+[dependencies]
+vortex-error = { workspace = true, features = ["specta"] }
+vortex-observability.workspace = true
+vortex-domain = { workspace = true, features = ["specta"] }
+vortex-application = { workspace = true, features = ["specta"] }
+vortex-engine.workspace = true
+vortex-net.workspace = true
+vortex-storage.workspace = true
+vortex-io.workspace = true
+vortex-ipc = { workspace = true, features = ["client", "server"] }
+vortex-platform.workspace = true
+
+mimalloc.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+specta.workspace = true
+specta-typescript.workspace = true
+tauri.workspace = true
+tauri-plugin-notification.workspace = true
+tauri-specta.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+tracing.workspace = true

@@ -1,0 +1,41 @@
+name: Feature Request
+description: Propose a new capability, protocol enhancement, or UX improvement.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before proposing a new feature, please check [`docs/Tasks.md`](../../docs/Tasks.md) to see if it is already scheduled in Phase 2–4.
+
+        **Note on Scope (`ADR-011` & `ADR-014`):** Vortex permanently declines DRM circumvention, CAPTCHA bypassing, and telemetry features.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the workflow gap or user pain point you want to solve.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: How should Vortex handle this? Mention any UX, protocol, or security implications.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered (Optional)
+      description: Other approaches or workarounds you considered.
+
+  - type: checkboxes
+    id: policy
+    attributes:
+      label: Project Alignment
+      options:
+        - label: This proposal complies with Vortex's zero-telemetry and no-DRM/CAPTCHA-bypass policies.
+          required: true

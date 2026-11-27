@@ -1,0 +1,58 @@
+name: Performance Benchmarks & Regression Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  criterion-bench:
+    name: Criterion Micro-Benchmarks (< 5% Regression Gate)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Protobuf compiler (protoc)
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore main branch Criterion baseline
+        uses: actions/cache/restore@v4
+        with:
+          path: target/criterion
+          key: criterion-main-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            criterion-main-${{ runner.os }}-
+
+      - name: Run Criterion benchmarks and enforce <= 5% regression gate
+        shell: pwsh
+        run: |
+          $out = cargo bench -p vortex-bench --locked -- --noplot --noise-threshold 0.05 --save-baseline main 2>&1 | Tee-Object -Variable benchLog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (($benchLog -join "`n") -match "Performance has regressed") {
+            Write-Error "Performance regression exceeded the 5% Criterion threshold!"
+            exit 1
+          }
+
+      - name: Save updated Criterion baseline on main
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          path: target/criterion
+          key: criterion-main-${{ runner.os }}-${{ github.sha }}
+
+      - name: Upload Criterion benchmark reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: criterion-reports
+          path: target/criterion

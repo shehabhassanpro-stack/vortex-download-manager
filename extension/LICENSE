@@ -1,0 +1,18 @@
+Vortex Browser Extension Dual License Notice
+============================================
+
+Copyright (c) 2026 Vortex Contributors
+
+In accordance with ADR-013 (docs/adr/0013-gpl3-license.md), the thin browser
+extension source code inside `extension/` is dual-licensed under:
+
+    MPL-2.0 OR GPL-3.0-or-later
+
+You may choose to use, copy, modify, and distribute the contents of this
+`extension/` directory under the terms of either:
+
+  1. The Mozilla Public License, v. 2.0 (https://mozilla.org/MPL/2.0/), OR
+  2. The GNU General Public License, v. 3.0 or later (see `../LICENSE`).
+
+Note: The Vortex Core engine, desktop application, native bridge, CLI, and
+shared crates remain strictly licensed under `GPL-3.0-or-later`.

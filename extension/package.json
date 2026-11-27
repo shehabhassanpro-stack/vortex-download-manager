@@ -1,0 +1,25 @@
+{
+  "name": "@vortex/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vortex MV3 Browser Extension (Brave primary, Chrome/Edge) — Live-Stream Hold + CHIPS + SafeSuggestGuard",
+  "license": "MPL-2.0 OR GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "prepare": "wxt prepare",
+    "dev": "wxt",
+    "dev:brave": "wxt -b chromium",
+    "build": "wxt build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vortex/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.320",
+    "fast-check": "^4.1.1",
+    "vitest": "^3.1.2",
+    "wxt": "^0.20.6"
+  }
+}

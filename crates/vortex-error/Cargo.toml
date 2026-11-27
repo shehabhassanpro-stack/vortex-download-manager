@@ -1,0 +1,24 @@
+[package]
+name = "vortex-error"
+description = "Unified Vortex error taxonomy, stable VTX-* error codes, recoverability, TraceId (UUIDv7), and ApiError"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+# Enables `specta::Type` derives for zero-drift TypeScript binding generation via `tauri-specta` (P0-T09 / P1-T30)
+specta = ["dep:specta"]
+
+[dependencies]
+serde.workspace = true
+specta = { workspace = true, optional = true }
+thiserror.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Vortex Download Manager",
+  "version": "0.1.0",
+  "identifier": "io.vortexdm.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @vortex/desktop-ui dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "pnpm --filter @vortex/desktop-ui build",
+    "frontendDist": "../ui/dist"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "msi"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/icon.ico"],
+    "resources": {
+      "../../../target/release/vortex-bridge.exe": "vortex-bridge.exe",
+      "../../../installer/windows/com.vortex.bridge.json": "com.vortex.bridge.json"
+    },
+    "windows": {
+      "allowDowngrades": false,
+      "nsis": {
+        "installMode": "currentUser",
+        "compression": "lzma",
+        "languages": ["Arabic", "English"],
+        "displayLanguageSelector": true,
+        "installerHooks": "../../../installer/windows/nsis-hooks.nsh"
+      },
+      "wix": {
+        "upgradeCode": "4d8f29e0-9c44-4b2a-8f31-7e50d2a1b609",
+        "fragmentPaths": ["../../../installer/windows/native-hosts.wxs"],
+        "componentRefs": ["VortexNativeMessagingHosts"]
+      }
+    }
+  }
+}

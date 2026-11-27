@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vortex Download Manager</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div class="brand-row">
+          <svg
+            class="brand-svg"
+            viewBox="0 0 512 512"
+            width="28"
+            height="28"
+            fill="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient
+                id="p-bg"
+                x1="48"
+                y1="32"
+                x2="464"
+                y2="480"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stop-color="#1E2438" />
+                <stop offset="100%" stop-color="#0B0E18" />
+              </linearGradient>
+              <linearGradient id="p-blade" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#4338CA" />
+                <stop offset="45%" stop-color="#6366F1" />
+                <stop offset="85%" stop-color="#22D3EE" />
+                <stop offset="100%" stop-color="#CFFAFE" />
+              </linearGradient>
+            </defs>
+            <rect x="20" y="20" width="472" height="472" rx="112" fill="url(#p-bg)" />
+            <g transform="translate(256 256)">
+              <path
+                d="M -18 -56 C -8 -126, 66 -174, 146 -152 C 102 -128, 72 -96, 60 -42 C 52 -6, 32 16, 4 22 C 26 -6, 20 -36, -18 -56 Z"
+                fill="url(#p-blade)"
+              />
+              <path
+                transform="rotate(120)"
+                d="M -18 -56 C -8 -126, 66 -174, 146 -152 C 102 -128, 72 -96, 60 -42 C 52 -6, 32 16, 4 22 C 26 -6, 20 -36, -18 -56 Z"
+                fill="url(#p-blade)"
+              />
+              <path
+                transform="rotate(240)"
+                d="M -18 -56 C -8 -126, 66 -174, 146 -152 C 102 -128, 72 -96, 60 -42 C 52 -6, 32 16, 4 22 C 26 -6, 20 -36, -18 -56 Z"
+                fill="url(#p-blade)"
+              />
+              <circle cx="0" cy="0" r="54" fill="#0E1320" stroke="#22D3EE" stroke-width="10" />
+              <path
+                d="M 0 -24 L 0 18 M -18 2 L 0 21 L 18 2"
+                stroke="#E0F2FE"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </svg>
+          <div>
+            <strong class="brand-title">Vortex</strong>
+            <div class="brand-sub">تأكيد ذكي وحماية من الإعلانات</div>
+          </div>
+        </div>
+        <span id="status-badge" class="status-badge" data-connected="false">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-text">جارٍ الفحص...</span>
+        </span>
+      </header>
+
+      <section class="card-row">
+        <label class="toggle-row" for="capture-toggle">
+          <span>الالتقاط الذكي للتحميلات</span>
+          <input id="capture-toggle" type="checkbox" checked />
+        </label>
+        <p class="hint-text">
+          كل رابط ملتقَط يُعرض لتأكيدك أولاً. اضغط <kbd>Alt</kbd> أثناء النقر لتجاوز Vortex مؤقتاً.
+        </p>
+      </section>
+
+      <section id="site-card" class="card-row site-card" hidden>
+        <div class="site-meta">
+          <span class="site-label">الموقع الحالي</span>
+          <code id="current-host" class="site-host" dir="ltr"></code>
+        </div>
+        <button id="toggle-site-btn" type="button" class="btn-site">استثناء هذا الموقع</button>
+      </section>
+
+      <form id="quick-form" class="quick-form">
+        <input
+          id="quick-url"
+          type="url"
+          dir="ltr"
+          placeholder="https://example.com/file.iso"
+          aria-label="رابط التحميل"
+          required
+        />
+        <button id="quick-submit" type="submit" class="btn-primary">إرسال إلى نافذة Vortex</button>
+      </form>
+
+      <p id="feedback-msg" class="feedback-msg" role="status" aria-live="polite"></p>
+
+      <footer class="popup-footer">
+        <button id="open-options" type="button" class="btn-secondary">
+          الإعدادات وسجل الأحداث
+        </button>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
