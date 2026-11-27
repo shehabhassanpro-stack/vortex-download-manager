@@ -87,7 +87,7 @@ rustc-hash = "2.1"
 ahash = "0.8"
 nucleo-matcher = "0.3"
 mimalloc = { version = "0.1", default-features = false }
-base64 = "0.22"
+base64 = "0.23"
 
 # Hashing & Persistence
 rusqlite = { version = "0.43", features = ["bundled", "backup"] }
