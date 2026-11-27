@@ -27,7 +27,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore main branch Criterion baseline
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: target/criterion
           key: criterion-main-${{ runner.os }}-${{ github.sha }}
@@ -46,7 +46,7 @@ jobs:
 
       - name: Save updated Criterion baseline on main
         if: github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: target/criterion
           key: criterion-main-${{ runner.os }}-${{ github.sha }}
