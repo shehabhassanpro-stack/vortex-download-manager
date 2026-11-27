@@ -103,7 +103,7 @@ time = { version = "0.3", features = ["formatting", "macros"] }
 
 # Protobuf & IPC
 prost = "0.13"
-prost-build = "0.13"
+prost-build = "0.14"
 
 # Async, networking & test-lab
 futures-core = "0.3"
