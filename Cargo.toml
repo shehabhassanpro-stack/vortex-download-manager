@@ -31,7 +31,6 @@ rust-version = "1.100"
 license = "GPL-3.0-or-later"
 authors = ["Shehab Hassan <shehab.hassan.pro@gmail.com>"]
 repository = "https://github.com/shehabhassanpro-stack/vortex-download-manager"
-homepage = "https://github.com/shehabhassanpro-stack/vortex-download-manager"
 
 [workspace.lints.rust]
 unsafe_code = "warn"
